@@ -13,18 +13,23 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: const MyStatelessWidget(),
+        body: const FirstView(),
+        //Create a button under for "2nd view" for quote & route it to the other class
       ),
     );
   }
 }
 
-class MyStatelessWidget extends StatelessWidget {
-  const MyStatelessWidget({Key? key}) : super(key: key);
+class FirstView extends StatelessWidget {
+  const FirstView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
+      /*GestureDetector(
+      onTap: () => insert api endpoint that updates the color
+      Random color API endpoint: https://5fnqqpo4pvqof7dhkf2rjyrtbe0yayfh.lambda-url.us-east-1.on.aws
+      */
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -42,6 +47,30 @@ class MyStatelessWidget extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class SecondView extends StatelessWidget { // Second view
+  const SecondView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Second View'),
+      ),
+      body: Center(
+        //Create textfield that is set to nothing
+        //Create a button & when clicked, call API endpoint and update textbox
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigate back to first route when tapped.
+          },
+          child: const Text('View 1'),
         ),
       ),
     );
