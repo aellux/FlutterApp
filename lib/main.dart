@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
         body: const FirstView(),
+        floatingActionButton: const FirstRoute(),
         //Create a button under for "2nd view" for quote & route it to the other class
       ),
     );
@@ -53,6 +54,30 @@ class FirstView extends StatelessWidget {
   }
 }
 
+class FirstRoute extends StatelessWidget {
+  const FirstRoute({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('First View'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Second View'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SecondView()),
+            );
+            // Navigate to second route when tapped.
+          },
+        ),
+      ),
+    );
+  }
+}
 
 class SecondView extends StatelessWidget { // Second view
   const SecondView({Key? key}) : super(key: key);
@@ -66,9 +91,12 @@ class SecondView extends StatelessWidget { // Second view
       body: Center(
         //Create textfield that is set to nothing
         //Create a button & when clicked, call API endpoint and update textbox
-        child: ElevatedButton(
+        child: ElevatedButton( // Navigate back to first route when tapped.
           onPressed: () {
-            // Navigate back to first route when tapped.
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FirstView()),
+            );
           },
           child: const Text('View 1'),
         ),
