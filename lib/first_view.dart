@@ -3,27 +3,63 @@ import 'second_view.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class FirstView extends StatelessWidget {
+class FirstView extends StatefulWidget {
   const FirstView({Key? key}) : super(key: key);
 
   @override
+  State<FirstView> createState() => _FirstViewState();
+}
+
+class _FirstViewState extends State<FirstView> { // Creates the card in first view
+  @override
   Widget build(BuildContext context) {
     return Center(
-      child: Card(
+      child: InkWell( // Allows the card to change color when tapped
+        onTap: () {},
+        child: Card(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const ListTile(
+                title: Text('This Is A Card', textAlign: TextAlign.center,),
+              ),
+              const ListTile(
+                title: Text('Click it', textAlign: TextAlign.center,),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  const SizedBox(width: 8, height: 40),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FirstRoute extends StatelessWidget { // First view including card and button, routes to second view
+  const FirstRoute({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('First View'),
+      ),
+      body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              title: Text('This Is A Card', textAlign: TextAlign.center,),
-            ),
-            const ListTile(
-              title: Text('Click it', textAlign: TextAlign.center,),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                const SizedBox(width: 8, height: 40),
-              ],
+          children: [FirstView(),
+            ElevatedButton(
+              child: const Text('Second View'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SecondView()),
+                );
+                // Navigate to second route when tapped.
+              },
             ),
           ],
         ),
@@ -32,8 +68,7 @@ class FirstView extends StatelessWidget {
   }
 }
 
-
-Future<Color> fetchColor() async {
+Future<Color> fetchColor() async { // Fetch information with API endpoint
   final response = await http
       .get(Uri.parse('https://5fnqqpo4pvqof7dhkf2rjyrtbe0yayfh.lambda-url.us-east-1.on.aws/'));
   if (response.statusCode == 200) {
@@ -48,7 +83,7 @@ Future<Color> fetchColor() async {
 }
 
 
-class Color {
+class Color { // Constructors for the updating colors
   final String hex;
   final int red, green, blue, opacity;
 
@@ -57,7 +92,7 @@ class Color {
   });
 
 
-factory Color.fromJson(Map<String, dynamic> json) {
+factory Color.fromJson(Map<String, dynamic> json) { //
   return Color(
     hex: json['hex'],
     red: json['red'],
@@ -77,36 +112,5 @@ class MyAppState extends State<MyApp> {
     futureAlbum = fetchColor();
   }
 // ···
-}
-*/
-
-
-
-
-
-/*
-class FirstRoute extends StatelessWidget {
-  const FirstRoute({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('First View'),
-      ),
-
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Second View'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SecondView()),
-            );
-            // Navigate to second route when tapped.
-          },
-        ),
-      ),
-    );
-  }
 }
 */

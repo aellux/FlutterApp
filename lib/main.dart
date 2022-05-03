@@ -3,7 +3,6 @@ import 'first_view.dart';
 import 'second_view.dart';
 import 'package:http/http.dart' as http;
 
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -16,11 +15,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FirstView(),
+      home: FirstRoute(), // Replace home with following class
     );
   }
 }
-
 
 
 

@@ -17,12 +17,11 @@ class SecondView extends StatelessWidget { // Second view
         //Create a button & when clicked, call API endpoint and update textbox
         child: ElevatedButton( // Navigate back to first route when tapped.
           onPressed: () {
-            Navigator.push(
+            Navigator.pop(
               context,
-              MaterialPageRoute(builder: (context) => const FirstView()),
             );
           },
-          child: const Text('View 1'),
+          child: const Text('Return to View 1'),
         ),
       ),
     );
