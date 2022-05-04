@@ -15,7 +15,9 @@ class _FirstViewState extends State<FirstView> { // Creates the card in first vi
   Widget build(BuildContext context) {
     return Center(
       child: InkWell( // Allows the card to change color when tapped
-        onTap: () {},
+        onTap: () {
+
+        },
         child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -24,7 +26,7 @@ class _FirstViewState extends State<FirstView> { // Creates the card in first vi
                 title: Text('This Is A Card', textAlign: TextAlign.center,),
               ),
               const ListTile(
-                title: Text('Click it', textAlign: TextAlign.center,),
+                title: Text('Update the color by click on it', textAlign: TextAlign.center,),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -39,6 +41,7 @@ class _FirstViewState extends State<FirstView> { // Creates the card in first vi
     );
   }
 }
+
 
 class FirstRoute extends StatelessWidget { // First view including card and button, routes to second view
   const FirstRoute({Key? key}) : super(key: key);
