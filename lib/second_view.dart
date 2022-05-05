@@ -4,10 +4,28 @@ import 'first_view.dart';
 import 'main.dart';
 import 'package:http/http.dart' as http;
 
-class SecondView extends StatelessWidget { // Second view
+
+
+class SecondView extends StatefulWidget { // Second view
   const SecondView({Key? key}) : super(key: key);
 
   @override
+  State<SecondView> createState() => _SecondViewState();
+
+}
+
+
+class _SecondViewState extends State<SecondView> {
+
+  final myController = TextEditingController(); // Creates the controller for updating text
+  String newText = 'Quote update';
+
+  @override
+  void dispose(){
+    myController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -18,15 +36,23 @@ class SecondView extends StatelessWidget { // Second view
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(
+              TextField(
+              controller: myController,
+              textAlign: TextAlign.center,
+              maxLines: 5,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'A quote will pop up here',
+                labelText: 'Insert String Quote', // Using a var, connect it to updated text under Elevated Button
               ),
             ),
-            ElevatedButton( // Navigate back to first route when tapped.
+            ElevatedButton( // Button that updated the textfield box with a new quote
               child: const Text('Generate Quote'),
               onPressed: () {
+                 fetchQuote(); // After pressing button, it will fetch the quote and update the textbox with the new string
+                 String updatedText = myController.text + newText;
+                 myController.value = myController.value.copyWith(
+                   text: newText,
+                 );
               },
             ),
         ],
@@ -50,16 +76,17 @@ Future<Quote> fetchQuote() async { // Fetch information with API endpoint
   }
 }
 
-class Quote { // Constructors for the updating textbox
+class Quote { // Constructors for the quote variable
   final String pQuote;
 
-  const Quote({
+   Quote({
     required this.pQuote,
   });
 
-  factory Quote.fromJson(Map<String, dynamic> json) { //
+  factory Quote.fromJson(Map<String, dynamic> json) { // Fetches the quote from Json
     return Quote(
-      pQuote: json['string'],
+      pQuote: json['pQuote'],
     );
   }
 }
+

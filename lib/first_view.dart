@@ -11,14 +11,20 @@ class FirstView extends StatefulWidget {
 }
 
 class _FirstViewState extends State<FirstView> { // Creates the card in first view
+  late Future<Color> futureAlbum;
   @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchColor();
+  }
   Widget build(BuildContext context) {
     return Center(
       child: InkWell( // Allows the card to change color when tapped
-        onTap: () {
+        onTap: () { //Call fetch color & update the card background color with the Json data
+        fetchColor();
 
         },
-        child: Card(
+        child: Card( // Creates the card UI
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -26,12 +32,12 @@ class _FirstViewState extends State<FirstView> { // Creates the card in first vi
                 title: Text('This Is A Card', textAlign: TextAlign.center,),
               ),
               const ListTile(
-                title: Text('Update the color by click on it', textAlign: TextAlign.center,),
+                title: Text('Update the color by clicking on it', textAlign: TextAlign.center,),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  const SizedBox(width: 8, height: 40),
+                children: const <Widget>[
+                  SizedBox(width: 8, height: 40),
                 ],
               ),
             ],
@@ -53,8 +59,10 @@ class FirstRoute extends StatelessWidget { // First view including card and butt
       ),
       body: Center(
         child: Column(
-          children: [FirstView(),
-            ElevatedButton(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [const FirstView(),
+            ElevatedButton( //Button on push, routes to second
               child: const Text('Second View'),
               onPressed: () {
                 Navigator.push(
@@ -79,9 +87,7 @@ Future<Color> fetchColor() async { // Fetch information with API endpoint
     // then parse the JSON.
     return Color.fromJson(jsonDecode(response.body));
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load color');
+    throw Exception('Failed to load color'); // Throw exception if it didn't return a response
   }
 }
 
@@ -95,7 +101,7 @@ class Color { // Constructors for the updating colors
   });
 
 
-factory Color.fromJson(Map<String, dynamic> json) { //
+factory Color.fromJson(Map<String, dynamic> json) {
   return Color(
     hex: json['hex'],
     red: json['red'],
@@ -106,14 +112,3 @@ factory Color.fromJson(Map<String, dynamic> json) { //
 }
 }
 
-/*
-class MyAppState extends State<MyApp> {
-  late Future<Color> futureAlbum;
-  @override
-  void initState() {
-    super.initState();
-    futureAlbum = fetchColor();
-  }
-// ···
-}
-*/
