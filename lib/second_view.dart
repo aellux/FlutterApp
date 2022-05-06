@@ -17,7 +17,7 @@ class SecondView extends StatefulWidget { // Second view
 class _SecondViewState extends State<SecondView> {
 
   final myController = TextEditingController(); // Creates the controller for updating text
-  String newText = "";
+  String newText = "Click Generate Quote!"; //Defaults the text when calling API
 
   @override
   void dispose(){
@@ -27,18 +27,18 @@ class _SecondViewState extends State<SecondView> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( // Creates the App Bar above
         title: const Text('Second View'),
       ),
-      body: Center(
+      body: Center( // Centers the widget
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center, // Aligns the child to the middle
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-              TextField(
+              TextField( // Initialize the Label & Controller for when it's clicked
               controller: myController,
               textAlign: TextAlign.center,
-              maxLines: 5,
+              maxLines: 4,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Quote',
@@ -46,9 +46,9 @@ class _SecondViewState extends State<SecondView> {
             ),
             ElevatedButton( // Button that updated the textfield box with a new quote
               child: const Text('Generate Quote'),
-              onPressed: () {
+              onPressed: () { // When the button is clicked call fetchQuote()
                 fetchQuote();
-                 String updatedText = myController.text + newText;
+                 String updatedText = myController.text + newText; // Updates the text with the new one
                  myController.value = myController.value.copyWith(
                    text: newText,
                  );

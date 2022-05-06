@@ -22,7 +22,7 @@ class _FirstViewState extends State<FirstView> { // Creates the card in first vi
       child: InkWell( // Allows the card to change color when tapped
         onTap: () { //Call fetch color & update the card background color with the Json data
         fetchColor();
-
+        // TODO Update the Card color given the Json
         },
         child: Card( // Creates the card UI
           child: Column(
@@ -92,7 +92,7 @@ Future<Color> fetchColor() async { // Fetch information with API endpoint
 }
 
 
-class Color { // Constructors for the updating colors
+class Color { // Constructors for the json values
   final String hex;
   final int red, green, blue, opacity;
 
@@ -101,7 +101,7 @@ class Color { // Constructors for the updating colors
   });
 
 
-factory Color.fromJson(Map<String, dynamic> json) {
+factory Color.fromJson(Map<String, dynamic> json) { //Fetches the values
   return Color(
     hex: json['hex'],
     red: json['red'],
