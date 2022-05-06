@@ -11,14 +11,13 @@ class SecondView extends StatefulWidget { // Second view
 
   @override
   State<SecondView> createState() => _SecondViewState();
-
 }
 
 
 class _SecondViewState extends State<SecondView> {
 
   final myController = TextEditingController(); // Creates the controller for updating text
-  String newText = 'Quote update';
+  String newText = "";
 
   @override
   void dispose(){
@@ -42,13 +41,13 @@ class _SecondViewState extends State<SecondView> {
               maxLines: 5,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Insert String Quote', // Using a var, connect it to updated text under Elevated Button
+                labelText: 'Quote',
               ),
             ),
             ElevatedButton( // Button that updated the textfield box with a new quote
               child: const Text('Generate Quote'),
               onPressed: () {
-                 fetchQuote(); // After pressing button, it will fetch the quote and update the textbox with the new string
+                fetchQuote();
                  String updatedText = myController.text + newText;
                  myController.value = myController.value.copyWith(
                    text: newText,
@@ -60,33 +59,24 @@ class _SecondViewState extends State<SecondView> {
       ),
     );
   }
-}
-
-Future<Quote> fetchQuote() async { // Fetch information with API endpoint
-  final response = await http
-      .get(Uri.parse('https://irnvhor4mth6odid4xgxlodvoy0rgjwc.lambda-url.us-east-1.on.aws/'));
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Quote.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load quote');
+   fetchQuote() async { // Fetch information with API endpoint
+    final response = await http
+        .get(Uri.parse('https://irnvhor4mth6odid4xgxlodvoy0rgjwc.lambda-url.us-east-1.on.aws/'));
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      newText = response.body;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load quote');
+    }
   }
 }
 
-class Quote { // Constructors for the quote variable
-  final String pQuote;
 
-   Quote({
-    required this.pQuote,
-  });
 
-  factory Quote.fromJson(Map<String, dynamic> json) { // Fetches the quote from Json
-    return Quote(
-      pQuote: json['pQuote'],
-    );
-  }
-}
+
+
+
 
