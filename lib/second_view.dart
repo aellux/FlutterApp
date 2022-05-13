@@ -16,12 +16,10 @@ class SecondView extends StatefulWidget { // Second view
 
 class _SecondViewState extends State<SecondView> {
 
-  final myController = TextEditingController(); // Creates the controller for updating text
   String newText = "Click Generate Quote!"; //Defaults the text when calling API
 
   @override
   void dispose(){
-    myController.dispose();
     super.dispose();
   }
 
@@ -35,23 +33,22 @@ class _SecondViewState extends State<SecondView> {
           mainAxisAlignment: MainAxisAlignment.center, // Aligns the child to the middle
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-              TextField( // Initialize the Label & Controller for when it's clicked
-              controller: myController,
-              textAlign: TextAlign.center,
-              maxLines: 4,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Quote',
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Colors.grey,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
+              child: Text(newText),
             ),
             ElevatedButton( // Button that updated the textfield box with a new quote
               child: const Text('Generate Quote'),
-              onPressed: () { // When the button is clicked call fetchQuote()
-                fetchQuote();
-                 String updatedText = myController.text + newText; // Updates the text with the new one
-                 myController.value = myController.value.copyWith(
-                   text: newText,
-                 );
+              onPressed: () async { // When the button is clicked call fetchQuote()
+                await fetchQuote();
               },
             ),
         ],
@@ -65,7 +62,9 @@ class _SecondViewState extends State<SecondView> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      newText = response.body;
+      setState(() {
+        newText = response.body;
+      });
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
